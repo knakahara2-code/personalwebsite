@@ -64,11 +64,12 @@ export function BootScreen({
 
   const doEnter = useCallback(() => {
     initAudio();
-    playFanfare();
+    // Delay fanfare slightly so AudioContext has time to unlock on mobile
+    setTimeout(() => playFanfare(), 100);
     setTimeout(() => {
       setHidden(true);
       setTimeout(onEnter, 500);
-    }, 500);
+    }, 600);
   }, [initAudio, playFanfare, onEnter]);
 
   const skipToChoice = useCallback(() => {

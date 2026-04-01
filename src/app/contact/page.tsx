@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 
 const FORM_ACTION =
-  "https://docs.google.com/forms/d/e/1FAIpQLSfoCHmcylA5Ez9wX_q_Ai5xgR9ldhUgMGWYuYTcJIsSIT0lvQ/formResponse";
+  "https://docs.google.com/forms/d/e/1FAIpQLScPCE4C6SCFw_wc645LO-_JwJZxcdbeeVHv1gbL68xSXs-_Cg/formResponse";
 
 const CATEGORY_OPTIONS = [
   "スポット・アドバイザリー（壁打ち・個別相談）",
@@ -40,17 +40,16 @@ export default function ContactPage() {
     setPhase("sending");
 
     const formData = new FormData();
-    formData.append("entry.1551479928", name);
-    // TODO(prod): Update entry ID after adding email field to Google Form
-    formData.append("entry.EMAIL_FIELD_ID", email);
-    formData.append("entry.985719490", company);
-    formData.append("entry.849068701", phone);
-    formData.append("entry.741993523", url);
-    formData.append("entry.1480302647", category);
-    formData.append("entry.1330276187", detail);
-    formData.append("entry.1418265759", eventInfo);
-    formData.append("entry.1606184870", budget);
-    formData.append("entry.2114807313", schedule);
+    formData.append("entry.497843630", name);
+    formData.append("entry.1312091696", email);
+    formData.append("entry.1760643316", company);
+    formData.append("entry.1373422035", phone);
+    formData.append("entry.1631170859", url);
+    formData.append("entry.1588944551", category);
+    formData.append("entry.1847567875", detail);
+    formData.append("entry.854692591", eventInfo);
+    formData.append("entry.399067119", budget);
+    formData.append("entry.780039765", schedule);
 
     try {
       await fetch(FORM_ACTION, {

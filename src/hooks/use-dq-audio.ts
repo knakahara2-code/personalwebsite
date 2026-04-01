@@ -180,14 +180,24 @@ export function useDQAudio() {
 
   const initAudio = useCallback(() => {
     const ctx = getCtx();
-    // Mobile Safari requires playing actual audio in a user gesture to unlock AudioContext
-    const silent = ctx.createOscillator();
-    const silentGain = ctx.createGain();
-    silentGain.gain.value = 0;
-    silent.connect(silentGain);
-    silentGain.connect(ctx.destination);
-    silent.start();
-    silent.stop(ctx.currentTime + 0.001);
+    // iOS Safari requires resume() + real (non-zero volume) audio in a user gesture to unlock
+    const unlock = () => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      // Must be non-zero for iOS to count as real audio playback
+      gain.gain.setValueAtTime(0.001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.05);
+    };
+    // Resume returns a promise on iOS — call unlock after it resolves
+    if (ctx.state === "suspended") {
+      ctx.resume().then(unlock);
+    } else {
+      unlock();
+    }
     setSoundEnabled(true);
     soundEnabledRef.current = true;
   }, [getCtx]);
@@ -195,11 +205,19 @@ export function useDQAudio() {
   const toggleSound = useCallback(() => {
     if (!audioCtxRef.current) {
       initAudio();
-      startBGM();
+      // Delay BGM start slightly so AudioContext has time to unlock on iOS
+      setTimeout(() => startBGM(), 100);
       return;
     }
     const ctx = audioCtxRef.current;
-    if (ctx.state === "suspended") ctx.resume();
+    if (ctx.state === "suspended") {
+      ctx.resume().then(() => {
+        setSoundEnabled(true);
+        soundEnabledRef.current = true;
+        startBGM();
+      });
+      return;
+    }
     setSoundEnabled((prev) => {
       const next = !prev;
       soundEnabledRef.current = next;

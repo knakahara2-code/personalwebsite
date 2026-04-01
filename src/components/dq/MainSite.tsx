@@ -20,6 +20,7 @@ export function MainSite() {
   const audio = useDQAudio();
 
   const handleEnter = useCallback(() => {
+    window.scrollTo(0, 0);
     setSiteVisible(true);
     setTimeout(() => {
       setStatsAnimated(true);
