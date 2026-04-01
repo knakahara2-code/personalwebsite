@@ -768,10 +768,10 @@ function QuestLog({ onHover }: { onHover: () => void }) {
 const snsLinks = [
   { label: "note", href: "https://note.com/ko_saku" },
   { label: "Podcast（じゅんびちゅう）", href: "#" },
-  { label: "YouTube", href: "https://www.youtube.com/@yamagabase" },
-  { label: "Instagram", href: "https://www.instagram.com/yamagabase/" },
-  { label: "Threads", href: "#" },
-  { label: "X", href: "#" },
+  { label: "YouTube", href: "https://www.youtube.com/@%E3%81%AA%E3%81%8B%E3%81%AF%E3%82%89%E3%81%8B%E3%81%A4%E3%82%82%E3%81%A8/shorts" },
+  { label: "Instagram", href: "https://www.instagram.com/katsu.nakahara/" },
+  { label: "Threads", href: "https://www.threads.com/@katsu.nakahara" },
+  { label: "X", href: "https://x.com/katsumomo8" },
 ];
 
 function SNSLinks({ onHover, onClick }: { onHover: () => void; onClick: () => void }) {
