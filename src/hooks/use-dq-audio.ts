@@ -235,6 +235,7 @@ export function useDQAudio() {
 
   return {
     soundEnabled,
+    getCtx,
     initAudio,
     toggleSound,
     playTextTick,

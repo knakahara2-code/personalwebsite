@@ -136,6 +136,7 @@ function playBattleBGM(ctx: AudioContext): { stop: () => void } {
 export function RokuRangerSecret({
   onTrigger,
   soundEnabled,
+  getSharedAudioCtx,
   onStopMainBGM,
   onStartMainBGM,
   onSuppressBGM,
@@ -143,6 +144,7 @@ export function RokuRangerSecret({
 }: {
   onTrigger: () => void;
   soundEnabled: boolean;
+  getSharedAudioCtx: () => AudioContext;
   onStopMainBGM: () => void;
   onStartMainBGM: () => void;
   onSuppressBGM: () => void;
@@ -151,18 +153,13 @@ export function RokuRangerSecret({
   const [phase, setPhase] = useState<Phase>("idle");
   const [showIdx, setShowIdx] = useState(-1);
   const [flashCount, setFlashCount] = useState(0);
-  const audioCtxRef = useRef<AudioContext | null>(null);
   const bgmRef = useRef<{ stop: () => void } | null>(null);
   const soundRef = useRef(soundEnabled);
   soundRef.current = soundEnabled;
 
   const getAudioCtx = useCallback(() => {
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-    }
-    if (audioCtxRef.current.state === "suspended") audioCtxRef.current.resume();
-    return audioCtxRef.current;
-  }, []);
+    return getSharedAudioCtx();
+  }, [getSharedAudioCtx]);
 
   const trigger = useCallback(() => {
     if (phase !== "idle") return;

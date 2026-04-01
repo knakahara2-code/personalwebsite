@@ -46,9 +46,9 @@ export function MainSite() {
 
   return (
     <>
-      {siteVisible && <SoundToggle soundEnabled={audio.soundEnabled} onToggle={audio.toggleSound} />}
+      <SoundToggle soundEnabled={audio.soundEnabled} onToggle={audio.toggleSound} />
       <FloatingNav visible={siteVisible} onHover={audio.playCursorSFX} onClick={audio.playSelectSFX} />
-      <RokuRangerSecret onTrigger={audio.playSelectSFX} soundEnabled={audio.soundEnabled} onStopMainBGM={audio.stopBGM} onStartMainBGM={audio.startBGM} onSuppressBGM={audio.suppressBGM} onUnsuppressBGM={audio.unsuppressBGM} />
+      <RokuRangerSecret onTrigger={audio.playSelectSFX} soundEnabled={audio.soundEnabled} getSharedAudioCtx={audio.getCtx} onStopMainBGM={audio.stopBGM} onStartMainBGM={audio.startBGM} onSuppressBGM={audio.suppressBGM} onUnsuppressBGM={audio.unsuppressBGM} />
 
       {!siteVisible && (
         <BootScreen
