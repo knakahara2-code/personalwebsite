@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npx shadcn@latest add *)",
+      "Bash(npm install *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__claude-in-chrome__",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/focus-chrome.js"
+          }
+        ]
+      }
+    ]
+  }
+}

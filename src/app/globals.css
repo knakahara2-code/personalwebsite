@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* ===== DQ THEME VARIABLES ===== */
+:root {
+  --bg: #0a0a2e;
+  --bg-stars: #0e0e38;
+  --window-bg: linear-gradient(180deg, #1a1a6c 0%, #10104a 100%);
+  --window-border-outer: #f8f0d0;
+  --window-border-inner: #a89860;
+  --window-shadow: rgba(0, 0, 0, 0.6);
+  --text: #f8f8f8;
+  --text-dim: #a0a0c0;
+  --gold: #f8d830;
+  --gold-dark: #c8a020;
+  --hp-green: #20e848;
+  --mp-blue: #40a0f8;
+  --red: #f84040;
+  --orange: #f8a030;
+  --cursor: #f8f8f8;
+}
+
+/* ===== CUSTOM WATERMELON CURSOR ===== */
+/* Default: watermelon slice */
+*, *::before, *::after {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 22 Q14 2 24 22 Z' fill='%2340a848'/%3E%3Cpath d='M5.5 21 Q14 4 22.5 21 Z' fill='%23e04040'/%3E%3Ccircle cx='11' cy='15' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='15' cy='13' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='17' cy='17' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='13' cy='18' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='9' cy='18' r='1.2' fill='%231a1028'/%3E%3C/svg%3E") 14 14, auto;
+}
+/* Pointer targets: watermelon with hand-like indicator */
+a, button, [role="button"], .cta-btn, .cta-btn-sub, .sns-link,
+.skill-card, .timeline-item, .dq-choice-item, .sound-toggle,
+[style*="cursor: pointer"], [style*="cursor:pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 22 Q14 2 24 22 Z' fill='%23f8d830'/%3E%3Cpath d='M5.5 21 Q14 4 22.5 21 Z' fill='%23e04040'/%3E%3Ccircle cx='11' cy='15' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='15' cy='13' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='17' cy='17' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='13' cy='18' r='1.2' fill='%231a1028'/%3E%3Ccircle cx='9' cy='18' r='1.2' fill='%231a1028'/%3E%3C/svg%3E") 14 14, pointer !important;
+}
+
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-dot-gothic), "DotGothic16", monospace;
+  line-height: 1.9;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+  min-height: 100vh;
+}
+
+/* ===== STARRY BACKGROUND ===== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 50% 10%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 90% 70%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 45% 45%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 80% 15%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 60% 85%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 25% 35%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 85% 55%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 55% 30%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 35% 90%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 75% 5%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 95% 25%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 40% 75%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 65% 50%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 20% 5%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 88% 88%, rgba(255, 255, 255, 0.4), transparent);
+  pointer-events: none;
+  z-index: 0;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes cursor-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes logo-appear {
+  0% { opacity: 0; transform: scale(0.7) translateY(-30px); filter: drop-shadow(0 0 60px rgba(248, 216, 48, 0.8)); }
+  60% { opacity: 1; transform: scale(1.03) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: drop-shadow(0 0 30px rgba(248, 64, 64, 0.3)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.6)); }
+}
+
+@keyframes subtitle-fade {
+  0% { opacity: 0; letter-spacing: 20px; }
+  100% { opacity: 1; letter-spacing: 6px; }
+}
+
+@keyframes gameover-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ===== FADE IN (scroll) ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .hero-grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
