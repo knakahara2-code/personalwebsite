@@ -23,6 +23,7 @@ export function useDQAudio() {
     (freq: number, duration: number, startTime: number, type: OscillatorType = "square", vol = 0.08) => {
       const ctx = audioCtxRef.current;
       if (!ctx) return;
+      if (ctx.state === "suspended") ctx.resume();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = type;
@@ -46,6 +47,7 @@ export function useDQAudio() {
     if (!soundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     if (!ctx) return;
+    if (ctx.state === "suspended") ctx.resume();
     const t = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -112,6 +114,7 @@ export function useDQAudio() {
     if (bgmSuppressedRef.current) return;
     const ctx = audioCtxRef.current;
     if (!ctx || bgmPlayingRef.current) return;
+    if (ctx.state === "suspended") ctx.resume();
     bgmPlayingRef.current = true;
 
     const melody = [
@@ -184,8 +187,11 @@ export function useDQAudio() {
   const toggleSound = useCallback(() => {
     if (!audioCtxRef.current) {
       initAudio();
+      startBGM();
       return;
     }
+    const ctx = audioCtxRef.current;
+    if (ctx.state === "suspended") ctx.resume();
     setSoundEnabled((prev) => {
       const next = !prev;
       soundEnabledRef.current = next;
