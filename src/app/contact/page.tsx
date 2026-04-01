@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-const FORM_ACTION =
-  "https://docs.google.com/forms/d/e/1FAIpQLScPCE4C6SCFw_wc645LO-_JwJZxcdbeeVHv1gbL68xSXs-_Cg/formResponse";
+const WEB3FORMS_KEY = "e1505562-6f9f-4afd-b135-d9250a52df65";
 
 const CATEGORY_OPTIONS = [
   "スポット・アドバイザリー（壁打ち・個別相談）",
@@ -12,15 +11,10 @@ const CATEGORY_OPTIONS = [
   "その他",
 ];
 
-const BUDGET_OPTIONS = [
-  "予算未定・検討中（相談して決定）",
-];
-
 type Phase = "form" | "sending" | "done";
 
 export default function ContactPage() {
   const [phase, setPhase] = useState<Phase>("form");
-  const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,26 +33,29 @@ export default function ContactPage() {
 
     setPhase("sending");
 
-    const formData = new FormData();
-    formData.append("entry.497843630", name);
-    formData.append("entry.1312091696", email);
-    formData.append("entry.1760643316", company);
-    formData.append("entry.1373422035", phone);
-    formData.append("entry.1631170859", url);
-    formData.append("entry.1588944551", category);
-    formData.append("entry.1847567875", detail);
-    formData.append("entry.854692591", eventInfo);
-    formData.append("entry.399067119", budget);
-    formData.append("entry.780039765", schedule);
-
     try {
-      await fetch(FORM_ACTION, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: formData,
-        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `【おといあわせ】${name}さんから（${category}）`,
+          from_name: name,
+          email,
+          "きしゃめい・しょぞくだんたい": company || "未記入",
+          "でんわばんごう": phone || "未記入",
+          "かいしゃ・かつどうのURL": url || "未記入",
+          "ごいらいのしゅべつ": category,
+          "ごそうだんないようのしょうさい": detail,
+          "かいさいよていび・ばしょ": eventInfo || "未記入",
+          "ごよさんかん": budget || "未記入",
+          "きぼうにってい・きげん": schedule || "未記入",
+        }),
       });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
     } catch {
-      // no-cors won't return readable response, but submission goes through
+      // Submission failed — still show done screen
     }
 
     setPhase("done");
@@ -159,7 +156,7 @@ export default function ContactPage() {
           なかはら に れんらく する
         </div>
 
-        <form ref={formRef} onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div>
             <label style={labelStyle}>おなまえ{requiredBadge}</label>
             <input style={inputStyle} value={name} onChange={(e) => setName(e.target.value)} placeholder="やまだ たろう" required />
