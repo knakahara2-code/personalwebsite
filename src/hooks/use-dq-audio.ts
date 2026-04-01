@@ -179,7 +179,15 @@ export function useDQAudio() {
   }, []);
 
   const initAudio = useCallback(() => {
-    getCtx();
+    const ctx = getCtx();
+    // Mobile Safari requires playing actual audio in a user gesture to unlock AudioContext
+    const silent = ctx.createOscillator();
+    const silentGain = ctx.createGain();
+    silentGain.gain.value = 0;
+    silent.connect(silentGain);
+    silentGain.connect(ctx.destination);
+    silent.start();
+    silent.stop(ctx.currentTime + 0.001);
     setSoundEnabled(true);
     soundEnabledRef.current = true;
   }, [getCtx]);
