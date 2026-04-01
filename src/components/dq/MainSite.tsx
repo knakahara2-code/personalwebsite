@@ -46,7 +46,7 @@ export function MainSite() {
 
   return (
     <>
-      <SoundToggle soundEnabled={audio.soundEnabled} onToggle={audio.toggleSound} />
+      {siteVisible && <SoundToggle soundEnabled={audio.soundEnabled} onToggle={audio.toggleSound} />}
       <FloatingNav visible={siteVisible} onHover={audio.playCursorSFX} onClick={audio.playSelectSFX} />
       <RokuRangerSecret onTrigger={audio.playSelectSFX} soundEnabled={audio.soundEnabled} onStopMainBGM={audio.stopBGM} onStartMainBGM={audio.startBGM} onSuppressBGM={audio.suppressBGM} onUnsuppressBGM={audio.unsuppressBGM} />
 

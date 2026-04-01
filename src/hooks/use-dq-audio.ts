@@ -205,8 +205,6 @@ export function useDQAudio() {
   const toggleSound = useCallback(() => {
     if (!audioCtxRef.current) {
       initAudio();
-      // Delay BGM start slightly so AudioContext has time to unlock on iOS
-      setTimeout(() => startBGM(), 100);
       return;
     }
     const ctx = audioCtxRef.current;
@@ -214,21 +212,18 @@ export function useDQAudio() {
       ctx.resume().then(() => {
         setSoundEnabled(true);
         soundEnabledRef.current = true;
-        startBGM();
       });
       return;
     }
     setSoundEnabled((prev) => {
       const next = !prev;
       soundEnabledRef.current = next;
-      if (next) {
-        startBGM();
-      } else {
+      if (!next) {
         stopBGM();
       }
       return next;
     });
-  }, [initAudio, startBGM, stopBGM]);
+  }, [initAudio, stopBGM]);
 
   const suppressBGM = useCallback(() => {
     bgmSuppressedRef.current = true;
