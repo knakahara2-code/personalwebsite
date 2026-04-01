@@ -13,6 +13,9 @@ import { RokuRangerSecret, getRokuTrigger } from "./RokuRanger";
 export function MainSite() {
   const [siteVisible, setSiteVisible] = useState(false);
   const [statsAnimated, setStatsAnimated] = useState(false);
+  const [portraitTaps, setPortraitTaps] = useState(0);
+  const [portraitMsg, setPortraitMsg] = useState("");
+  const portraitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const audio = useDQAudio();
 
@@ -44,7 +47,7 @@ export function MainSite() {
     <>
       <SoundToggle soundEnabled={audio.soundEnabled} onToggle={audio.toggleSound} />
       <FloatingNav visible={siteVisible} onHover={audio.playCursorSFX} onClick={audio.playSelectSFX} />
-      <RokuRangerSecret onTrigger={audio.playSelectSFX} soundEnabled={audio.soundEnabled} onStopMainBGM={audio.stopBGM} onStartMainBGM={audio.startBGM} />
+      <RokuRangerSecret onTrigger={audio.playSelectSFX} soundEnabled={audio.soundEnabled} onStopMainBGM={audio.stopBGM} onStartMainBGM={audio.startBGM} onSuppressBGM={audio.suppressBGM} onUnsuppressBGM={audio.unsuppressBGM} />
 
       {!siteVisible && (
         <BootScreen
@@ -110,14 +113,47 @@ export function MainSite() {
               <img
                 src="/char_portrait.png"
                 alt="中原功寛 キャラクター"
+                onClick={() => {
+                  setPortraitTaps((prev) => {
+                    const next = prev + 1;
+                    if (next === 1) {
+                      setPortraitMsg("");
+                    } else if (next < 5) {
+                      setPortraitMsg("・・・");
+                    } else {
+                      setPortraitMsg("へんじがない。ただのしかばねのようだ。");
+                    }
+                    return next;
+                  });
+                  audio.playCursorSFX();
+                  if (portraitTimerRef.current) clearTimeout(portraitTimerRef.current);
+                  portraitTimerRef.current = setTimeout(() => setPortraitMsg(""), 3000);
+                }}
                 style={{
                   width: 180,
                   height: "auto",
                   border: "3px solid var(--window-border-outer)",
                   borderRadius: 12,
                   boxShadow: "inset 0 0 10px rgba(0,0,0,0.5), 0 0 20px rgba(248,216,48,0.2)",
+                  cursor: "pointer",
+                  userSelect: "none",
                 }}
               />
+              {portraitMsg && (
+                <div style={{
+                  marginTop: 6,
+                  fontSize: "0.75rem",
+                  color: "var(--text)",
+                  fontFamily: "var(--font-dot-gothic), monospace",
+                  background: "linear-gradient(180deg, #1a1a6c 0%, #10104a 100%)",
+                  border: "2px solid var(--window-border-inner)",
+                  borderRadius: 8,
+                  padding: "6px 12px",
+                  animation: "fade-in-msg 0.3s ease-out",
+                }}>
+                  {portraitMsg}
+                </div>
+              )}
               <div style={{ fontSize: "0.7rem", color: "var(--text-dim)", marginTop: 6 }}>
                 <span style={{ color: "var(--gold)", fontSize: "0.8rem" }}>Lv.{(() => { const now = new Date(); let age = now.getFullYear() - 1986; if (now < new Date(now.getFullYear(), 7, 16)) age--; return age; })()}</span> ｜ なかはら
               </div>

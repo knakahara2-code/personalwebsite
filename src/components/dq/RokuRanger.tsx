@@ -138,11 +138,15 @@ export function RokuRangerSecret({
   soundEnabled,
   onStopMainBGM,
   onStartMainBGM,
+  onSuppressBGM,
+  onUnsuppressBGM,
 }: {
   onTrigger: () => void;
   soundEnabled: boolean;
   onStopMainBGM: () => void;
   onStartMainBGM: () => void;
+  onSuppressBGM: () => void;
+  onUnsuppressBGM: () => void;
 }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [showIdx, setShowIdx] = useState(-1);
@@ -163,7 +167,8 @@ export function RokuRangerSecret({
   const trigger = useCallback(() => {
     if (phase !== "idle") return;
     onTrigger();
-    // Stop the main BGM before playing encounter sounds
+    // Suppress main BGM and stop it before playing encounter sounds
+    onSuppressBGM();
     onStopMainBGM();
 
     if (soundRef.current) {
@@ -195,7 +200,7 @@ export function RokuRangerSecret({
       setPhase("reveal");
       setShowIdx(0);
     }, 3200);
-  }, [phase, onTrigger, onStopMainBGM, getAudioCtx]);
+  }, [phase, onTrigger, onSuppressBGM, onStopMainBGM, getAudioCtx]);
 
   // Reveal characters one by one
   useEffect(() => {
@@ -206,6 +211,25 @@ export function RokuRangerSecret({
     }
   }, [phase, showIdx]);
 
+  // React to sound toggle while Roku Ranger is active
+  useEffect(() => {
+    if (phase === "idle") return;
+
+    if (!soundEnabled) {
+      // Sound turned OFF: stop battle BGM
+      if (bgmRef.current) {
+        bgmRef.current.stop();
+        bgmRef.current = null;
+      }
+    } else {
+      // Sound turned ON: start battle BGM (if in encounter/reveal phase and not already playing)
+      if ((phase === "encounter" || phase === "reveal") && !bgmRef.current) {
+        const ctx = getAudioCtx();
+        bgmRef.current = playBattleBGM(ctx);
+      }
+    }
+  }, [soundEnabled, phase, getAudioCtx]);
+
   const handleClose = () => {
     if (bgmRef.current) {
       bgmRef.current.stop();
@@ -214,7 +238,8 @@ export function RokuRangerSecret({
     setPhase("idle");
     setShowIdx(-1);
     setFlashCount(0);
-    // Resume main BGM if sound is on
+    // Unsuppress and resume main BGM if sound is on
+    onUnsuppressBGM();
     if (soundRef.current) {
       onStartMainBGM();
     }

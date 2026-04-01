@@ -15,7 +15,7 @@ export function SoundToggle({
         position: "fixed",
         bottom: 20,
         right: 20,
-        zIndex: 9999,
+        zIndex: 10002,
         background: "linear-gradient(180deg, #1a1a6c 0%, #10104a 100%)",
         border: "3px solid var(--window-border-outer)",
         borderRadius: 12,

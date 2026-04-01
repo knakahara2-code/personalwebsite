@@ -7,6 +7,7 @@ export function useDQAudio() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const soundEnabledRef = useRef(false);
   const bgmPlayingRef = useRef(false);
+  const bgmSuppressedRef = useRef(false);
   const bgmTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeNodesRef = useRef<{ osc: OscillatorNode; gain: GainNode }[]>([]);
 
@@ -107,6 +108,8 @@ export function useDQAudio() {
   }, [playNote]);
 
   const startBGM = useCallback(() => {
+    if (!soundEnabledRef.current) return;
+    if (bgmSuppressedRef.current) return;
     const ctx = audioCtxRef.current;
     if (!ctx || bgmPlayingRef.current) return;
     bgmPlayingRef.current = true;
@@ -195,6 +198,14 @@ export function useDQAudio() {
     });
   }, [initAudio, startBGM, stopBGM]);
 
+  const suppressBGM = useCallback(() => {
+    bgmSuppressedRef.current = true;
+  }, []);
+
+  const unsuppressBGM = useCallback(() => {
+    bgmSuppressedRef.current = false;
+  }, []);
+
   return {
     soundEnabled,
     initAudio,
@@ -206,5 +217,7 @@ export function useDQAudio() {
     playGameOverSFX,
     startBGM,
     stopBGM,
+    suppressBGM,
+    unsuppressBGM,
   };
 }
