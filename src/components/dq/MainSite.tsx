@@ -175,7 +175,7 @@ export function MainSite() {
             </div>
             <div>
               <div style={{ fontSize: "1.6rem", color: "var(--gold)", marginBottom: 2, textShadow: "2px 2px 0 rgba(0,0,0,0.5), 0 0 10px rgba(248,216,48,0.3)" }}>
-                中原 功寛（なかはらかつもと）
+                中原 功寛（なかはら かつもと）
               </div>
               <div style={{ fontSize: "0.75rem", color: "var(--text-dim)", marginBottom: 10 }}>Katsu Nakahara</div>
 
@@ -329,6 +329,7 @@ export function MainSite() {
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
             {[
               { label: "▶ YAMAGA BASE", href: "https://www.yamagabase.com/" },
+              { label: "▶ コウサクファーム", href: "https://kosakufarm.com/" },
               { label: "▶ AI STRATEGY PARTNERS", href: "https://www.aistrategypartners.jp/" },
               { label: "▶ コウサクNL", href: "https://www.kosaku-nl.com/" },
             ].map((btn) => (
@@ -515,7 +516,7 @@ const skills = [
   { icon: "🏫", name: "YAMAGA BASE かいいん", desc: "24時間365日使えるコワーキングスペース＆ジムなどを有する複合施設YAMAGA BASE。AIとMBAの知識で起業・新規事業を前に進めるコミュニティbY。なんでもありの秘密基地。「面白い人が集まる場所」に、あなたも混ざりませんか。", cost: "▸ MP消費: げつがくせい（しょうさいはホームページ）", links: [{ href: "https://www.yamagabase.com/membership", label: "▶ しせつかいいん" }, { href: "https://www.yamagabase.com/community", label: "▶ コミュニティかいいん" }] },
   { icon: "⚔️", name: "企業研修・合宿", desc: "廃校の体育館で汗をかいて、焚き火を囲んで語り合う。座学じゃ絶対に生まれない一体感。翌日から目の色が変わるやつ。やまがBASE㈱が主催するオリジナル研修も不定期開催ながら大好評。", cost: "▸ MP消費: ようみつもり（しゅくはくプランあり・しょうさいはホームページ）", links: [{ href: "https://www.yamagabase.com/", label: "▶ だんたいしゅくはく" }, { href: "https://www.yamagabase.com/corp_sponsorship", label: "▶ やまがBASEけんしゅう" }] },
   { icon: "🤖", name: "AI Strategy Partners", desc: "「AI導入」の号令で途方に暮れてるあなたへ。構想→実行→内製化を一気通貫。テクノロジー×経営を橋渡しする仮想CXOチーム。事業戦略・事業計画策定・資本政策・資金調達・オペレーション改善、なんでもござれ。机上の空論で終わらせません。", cost: "▸ MP消費: ようみつもり", links: [{ href: "https://www.aistrategypartners.jp/", label: "▶ うぇぶさいとからといあわせる" }] },
-  { icon: "🍉", name: "スイカ・農泊（きせつげんてい）", desc: "戦後からつづくスイカ農園を法人化したコウサクファーム。スイカの名産地熊本県鹿本地域のあま～いスイカは贈答用に最強。耕作放棄とで藪になっていた土地を開墾し、自前の杉を使ったログハウスでの農泊体験も。詳しくはインスタグラムをチェックしてはいよ。", cost: "▸ MP消費: じか（きせつもの）", links: [{ href: "https://www.instagram.com/kosakufarm/", label: "▶ インスタグラムをちぇっく" }] },
+  { icon: "🍉", name: "スイカ・農泊（きせつげんてい）", desc: "戦後からつづくスイカ農園を法人化したコウサクファーム。スイカの名産地熊本県鹿本地域のあま～いスイカは贈答用に最強。耕作放棄とで藪になっていた土地を開墾し、自前の杉を使ったログハウスでの農泊体験も。詳しくはインスタグラムをチェックしてはいよ。", cost: "▸ MP消費: じか（きせつもの）", links: [{ href: "https://kosakufarm.com/", label: "▶ コウサクファームうぇぶさいと" }, { href: "https://www.instagram.com/kosakufarm/", label: "▶ インスタグラムをちぇっく" }] },
   { icon: "🌷", name: "オランダ農業視察", desc: "日本の130分の1の面積で世界2位の農業輸出国オランダ。現地拠点KOSAKU NLと連携したオランダ農業現地視察やオンライン視察のアレンジ、生の情報をお届けします。", cost: "▸ MP消費: ようみつもり", links: [{ href: "https://www.kosaku-nl.com/", label: "▶ コウサクNLうえぶさいと" }, { href: "https://note.com/ko_saku/n/ne47fcdee0e2e", label: "▶ オランダのnote" }] },
   { icon: "💬", name: "その他なんでも相談してね", desc: "上のどれにも当てはまらなくても大丈夫。「こんなこと相談していいのかな？」ってやつほど面白い。気軽にどうぞ。", cost: "▸ MP消費: むりょう（しょかい）", link: "/contact", linkLabel: "▶ といあわせる" },
 ];
